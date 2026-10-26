@@ -1,0 +1,26 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# One free static site. Render asks for PRIVATUS_SITE_ID when you deploy.
+services:
+  - type: web
+    name: my-site-with-privatus-analytics
+    runtime: static
+    buildCommand: npm run build
+    staticPublishPath: ./dist
+    # Render's advice for Deploy to Render buttons: many people deploy from
+    # this one repo, so a push here must not redeploy all of their sites.
+    # Made your own copy of the repo? Set this to commit.
+    autoDeployTrigger: "off"
+    previews:
+      generation: "off"
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+    envVars:
+      - key: PRIVATUS_SITE_ID
+        sync: false
+      - key: PRIVATUS_MODULES
+        value: engage,auto,vitals,clicks,ask

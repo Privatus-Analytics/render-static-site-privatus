@@ -1,0 +1,16 @@
+{
+  "name": "render-static-site-privatus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A tiny static site for Render with Privatus Analytics already set up. Set PRIVATUS_SITE_ID and deploy.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node serve.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}

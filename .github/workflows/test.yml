@@ -1,0 +1,22 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      - name: Build with a site id
+        run: PRIVATUS_SITE_ID=pa_TEST123 npm run build && grep -q 'data-site="pa_TEST123"' dist/index.html
+      - name: Check render.yaml against Render's schema
+        run: |
+          curl -fsSL https://render.com/schema/render.yaml.json -o /tmp/render-schema.json
+          npx -y ajv-cli@5 validate --spec=draft2020 --strict=false -s /tmp/render-schema.json -d render.yaml
